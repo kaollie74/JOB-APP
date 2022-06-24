@@ -7,7 +7,7 @@ const {
     createJob,
     updateJob,
     deleteJob,
-} = require("../controllers/jobs.controller");
+} = require("../controllers/jobs-controller");
 
 jobsRouter.route("/").get(getAllJobs).post(createJob);
 jobsRouter.route("/:id").get(getJob).patch(updateJob).delete(deleteJob);
