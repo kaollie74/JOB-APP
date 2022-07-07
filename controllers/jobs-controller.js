@@ -14,9 +14,7 @@ const getJob = async (req, res) => {
   } = req;
 
   const job = await Jobs.find({ _id: jobId, createdBy: userId });
-  console.log(job);
   if (!job) {
-    console.log('No Job');
     throw new NotFoundError(`No job with id ${jobId}`);
   }
 
