@@ -1,5 +1,6 @@
 require('dotenv').config();
 require('express-async-errors');
+
 const express = require('express');
 const authMiddleware = require('./middleware/auth-middleware');
 
@@ -17,6 +18,11 @@ const helmet = require('helmet');
 const cors = require('cors');
 const xss = require('xss-clean');
 const rateLimiter = require('express-rate-limit');
+
+// SWAGGER
+const swaggerUI = require('swagger-ui-express')
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
 
 // set security packages
 app.set('trust proxy', 1);
@@ -43,6 +49,10 @@ const jobsRouter = require('./routes/jobs.route');
  * Path
  * use router
  */
+app.get('/', (req, res) => {
+    res.send('<h1>Jobs API</h1><a href="/api-docs">Documentation</a>');
+});
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authMiddleware, jobsRouter);
 app.use(notFoundMiddleware);
